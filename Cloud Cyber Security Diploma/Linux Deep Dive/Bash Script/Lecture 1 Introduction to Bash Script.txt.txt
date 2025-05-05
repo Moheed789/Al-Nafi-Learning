@@ -1,0 +1,54 @@
+Lecture 1: Introduction to Bash Script.
+
+This lecture introduces the basics of Bash scripting, starting with binary conversion, shell environment variables, checking shell paths, and different ways to execute Bash scripts.
+
+1. Binary Conversion Practice:
+
+Demonstrates how to convert decimal numbers (like 12, 15, 68, 8, 97) into binary format.
+This is useful for understanding how computers interpret numbers at a low level.
+
+Example:
+	1286432168421
+	12 : 00001100  
+	15 : 00001111  
+	68 : 01000100  
+	8  : 00001000  
+	97 : 01100001
+
+2. Example Conversion:
+
+Shows a specific example: converting decimal 12 to binary → 00001100.
+
+Example:
+	12 Decimal --> Binary: 00001100
+
+3. Shell Environment Commands:
+
+echo $SHELL : Displays your default shell (e.g., /bin/bash).
+env : Lists all current environment variables.
+
+Example:
+	echo $SHELL
+   	env
+
+4. Shell Path Check:
+
+which sh : Tells the path to the sh shell interpreter.
+
+Example:
+	which sh
+
+5. Running Bash Scripts:
+
+Different methods of executing a script named test:
+
+bash test : Run using bash explicitly.
+sh test : Run using sh shell.
+./test : Execute if script has execute permissions.
+/root/bash/test : Execute using full path.
+
+Example:
+	bash test
+   	sh test
+   	./test
+  	/root/bash/test
