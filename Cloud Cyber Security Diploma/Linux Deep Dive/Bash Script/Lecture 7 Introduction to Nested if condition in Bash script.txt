@@ -1,0 +1,42 @@
+Lecture 7 : Introduction to Nested if condition in Bash script.
+
+In this lecture, we discussed how nested if statements work in Bash scripting. We learned the structural rules of if, else, and elif blocks and implemented a script that takes 
+three numbers from the user and determines the largest using nested conditions. This helps in understanding how decision-making is handled in layered logical checks.
+
+1. if → has "then" and "fi"
+
+The if block in Bash must always have a corresponding then and must be closed with fi. It is used to check a condition, and if that condition is true, the statements inside then are executed.
+
+2. else → has no "then" and no "fi"
+
+The else block is used when the if condition is false. It does not require a then keyword or a closing fi. It directly contains the statements to execute in the false case.
+
+3. elif → has "then" but no "fi"
+
+The elif (else-if) block is used when we want to check multiple conditions. Like if, it requires a then keyword but does not need a fi after it, as the main fi will close the entire block.
+
+4. Final Script Example:
+    #!/bin/bash
+    echo -n "Enter the first number:"
+    read var1
+    echo -n "Enter the second number:"
+    read var2
+    echo -n "Enter the third number"
+    read var3
+
+    if [[ $var1 -ge $var2]]
+    then
+        if [[ $var1 -ge $var3 ]]
+        then
+            echo "$var1 is largest number"
+        else
+            echo "$var3 is largest number"
+        fi
+    else
+        if [[ $var2 -ge $var3 ]]
+        then
+            echo "$var2 is largest number"
+        else
+            echo "$var3 is largest number"
+        fi
+    fi
