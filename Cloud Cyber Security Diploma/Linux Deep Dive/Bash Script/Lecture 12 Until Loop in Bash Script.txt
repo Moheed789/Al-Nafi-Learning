@@ -1,0 +1,55 @@
+Lecture 12 : Until Loop in Bash Script.
+
+In this lecture, we explored how the until loop works in Bash scripting. We learned the basic syntax of until, how it differs from the while loop, and saw practical examples 
+including numeric iterations and file existence checking. The key difference discussed is that until loops continue running until a condition becomes true, whereas while loops 
+run as long as the condition is true.
+
+1. Until Loop
+
+The until loop executes a block of code as long as the condition is false. Once the condition becomes true, the loop stops.
+Syntax:
+    Until <Condition>
+    do
+        statement
+    done
+
+2. until --> False to True
+
+The until loop runs while the condition is false. It stops only when the condition becomes true. This is the opposite of how a while loop behaves.
+Example:
+    #!/bin/bash
+    start=1
+    until [[ $start -ge 5 ]]
+    do
+        echo "Num is: $start"
+        ((start++))
+    done
+
+3. while --> True to False
+
+The while loop continues to run as long as the condition is true. It stops when the condition becomes false.
+Example:
+    #!/bin/bash
+    start=1
+    while [[ $start -le 10 ]]  # Loop will run while condition is true
+    do
+        echo "My Loop $start"
+        # ((start++))  # Alternate increment
+        start=`expr $start + 1`
+    done
+
+6. Until Loop to Check File Existence
+
+This example demonstrates how an until loop can be used to check if a specific file exists. The loop waits (with a delay) until the file is found.
+Example:
+    #!/bin/bash
+    until [[ -e /tmp/file]]
+    do
+        echo "file is not exist"
+        sleep 1
+    done
+    echo "File exist"
+
+7. Difference :- The main difference is that while loops are design to run while a condition is satisfied
+and the terminated once that condition returns false. on the other end until loops are designed to
+run while the condition return false and only terminate when the condition return true.
