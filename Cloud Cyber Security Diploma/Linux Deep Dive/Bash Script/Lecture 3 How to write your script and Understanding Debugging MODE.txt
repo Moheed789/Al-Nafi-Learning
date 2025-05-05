@@ -1,0 +1,97 @@
+Lecture 3: How to write your script and Understanding Debugging MODE
+
+This lecture explains how to properly write a bash script, starting from the planning phase to creating the file, setting permissions, and running the script.
+It also introduces how to enable and disable debugging mode using set -x and set +x, which helps in tracking command execution step-by-step.
+
+Steps for writing bash scripting.
+
+1. First you need to gather information.
+
+Before writing any script, it’s important to clearly understand what the script is supposed to do. Gather details such as file paths, commands needed, inputs/outputs expected, etc.
+
+2. You need to know manual command for shell scripting.
+
+Use the man command to read manuals of different shell commands. It helps you understand how each command works and what options are available.
+
+3. you need to mentioned shebang line
+
+This line tells the system that the file should be interpreted using the bash shell. It must be the first line in your script.
+
+Example:
+    #!/bin/bash
+
+4. Create file using .sh script, write your command in your script
+
+Use any text editor to create a .sh file (e.g., nano myscript.sh). Write your shell commands inside it.
+
+5. Set permission and run the script using ./<script name>/<full path script>
+
+After writing the script, you must give it execute permissions using chmod. Then run it using relative (./) or full path.
+
+Example:
+    echo $SHELL
+
+6. chsh
+
+This command is used to change your default shell.
+
+Example:
+    /bin/bash
+
+Debugging Mode
+
+7. set -x: Enable
+
+This enables debugging mode, which prints each command and its result on the terminal before executing it. Helpful for finding bugs.
+
+set +x: Disable
+
+This disables debugging mode.
+
+8.  Script Example
+
+The following script demonstrates basic bash commands and how to enable/disable debug mode.
+
+Example:
+    cat myfirst.sh
+    #!/bin/bash
+    pwd
+    date
+    echo hello
+    echo "bye"
+    set-x
+    echo "Today date is $(date)"
+    echo "Hi your current directory is : $(pwd)"
+    set +x
+    echo "===================================="
+
+    Script Output
+
+    root@abdealidodia:~/bash# ./myfirst.sh
+    /root/bash
+    Sunday 12 June 2022 12:33:55 PM IST
+    hello
+    bye
+    ++ date
+    + echo 'Today date is Sunday 12 June 2022 12:33:55 PM IST'
+    Today date is Sunday 12 June 2022 12:33:55 PM IST
+    ++ pwd
+    + echo 'Hi your current directory is: /root/bash'
+    Hi your current directory is: /root/bash
+    + set +x
+    ====================================
+
+9. Task:-
+
+This task uses basic directory commands and shows how to move between directories using cd.
+
+Example:
+    #!/bin/bash
+    echo "My current directory is : $(pwd)"
+    cd /home/abdeali/
+    echo "my changed directory is : $(pwd)"
+    cd /home/abdeali
+
+10. TASK:-
+
+This task asks to change the current directory using the command line, which is done using the cd command directly in the terminal.
