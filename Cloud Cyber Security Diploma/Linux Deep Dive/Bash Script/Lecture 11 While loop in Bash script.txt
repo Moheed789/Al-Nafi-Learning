@@ -1,0 +1,177 @@
+Lecture 11 : While loop in Bash script.
+
+This lecture covers the usage of the while loop in Bash scripting. It explains how infinite loops are created, how to control loops with conditions, how to read data from files 
+using while, and how to process CSV data using the IFS (Internal Field Separator). Multiple practical examples are shown to demonstrate these techniques.
+
+1. Infinity Loop
+
+When there is no limit or terminating condition in the while loop, it runs endlessly. This is called an infinite loop.
+Example:
+    #!/bin/bash
+    while true
+    do
+        echo "Alnafi"
+        echo "********"
+    done
+
+2. While Loop Syntax
+
+This is the basic syntax of a while loop in Bash.
+Example:
+While condition
+do
+    statement
+done
+
+3. While Loop with Increment Condition
+
+This loop runs from 10 to 1 in reverse order using a decrement condition.
+Example:
+    #!/bin/bash
+    start=1
+    while [[ $start -le 10 ]]
+    do
+        echo "Alnafi : $start"
+        ((start++))
+    done
+
+4. While Loop with Decrement Condition
+
+This loop runs from 10 to 1 in reverse order using a decrement condition.
+Example:
+    #!/bin/bash
+    start=10
+    while [[ $start -ge 1]]
+    do
+        echo "Alnafi : $start"
+        ((start--))
+    done
+
+5.  Reading File Contents using While Loop
+
+This syntax reads a file line-by-line using the read command.
+Example:
+    while read line
+    do
+        statement
+    done <filename
+
+6. Text File Example
+
+This file contains dummy name data separated by commas.
+Example:
+    cat name.txt
+    1,Abdeali
+    2,Kazim
+    3,Ali
+
+7. Script to Read File Line by Line
+
+This script reads the content of name.txt and prints each line.
+Example:
+    #!/bin/bash
+    file="name.txt"
+    while read each_line
+    do
+        echo "$each_line"
+    done <$file
+
+8. File Read Syntax using Pipe
+
+You can also use a command like cat with a pipe to feed input to the loop.
+Example:
+    command | while read <variable>
+    do
+        statement
+    done
+
+9. Script using Pipe Method
+
+This version uses cat with a pipe to read and print file contents.
+Example:
+    #!/bin/bash
+    file="/root/bash/lect11/name.txt"
+    cat $file | while read each_line
+    do
+        echo "$each_line"
+    done
+
+10. Script using ls -ltrh with While Loop
+
+This script reads output from a command and prints it line by line.
+Example:
+    #!/bin/bash
+    #file="/root/bash/lect11/name.txt"
+    ls -ltrh | while read each_line
+    do
+        echo "$each_line"
+    done
+
+11. IFS (Internal Field Separator)
+
+IFS is used to define how fields are separated in a CSV file, e.g., comma ,. This is useful when reading structured data.
+
+12. While Loop Syntax with IFS
+
+This syntax is used to read CSV values by separating them into multiple variables.
+Example:
+    while IFS="Separator" read variable1 variable2 variable3
+    do
+        statement
+    done <filename
+
+    OR
+
+    command | while IFS="Separator" read variable1 variable2 variable3
+    do
+        statement
+    done
+
+13. CSV File Example
+
+This is a CSV file containing server names and IP addresses.
+Example:
+    cat server.csv
+    1,Ansible,192.168.1.8
+    2,Node1,192.168.1.9
+    3,Node2,192.168.1.10
+    4,Node3,192.168.1.11
+
+    1 Ansible192.168.1.8
+    2,Node1,192.168.1.9
+    3,Node2,192.168.1.10
+    4,Node3,192.168.1.11
+
+
+14. Script to Read CSV and Print IP Addresses
+
+This script reads server.csv and prints only the IP address (3rd column).
+Example:
+    #!/bin/bash
+    file="/root/bash/lect11/server.csv"
+    cat $file | while IFS="," read var1 var2 var3
+    do
+        echo "$var3"
+    done
+
+15. Script with Empty IFS
+
+This version uses IFS="" and reads 3 variables. It prints the second column (name).
+Example:
+    #!/bin/bash
+    file="/root/bash/lect11/server1.csv"
+    while IFS="" read var1 var2 var3
+    do
+        echo "$var2"
+    done < $file
+
+16. Script without IFS (Default Separator)
+
+This version reads the file without setting IFS and prints the second column.
+Example:
+    #!/bin/bash
+    file="/root/bash/lect11/server1.csv"
+    while read var1 var2 var3
+    do
+        echo "$var2"
+    done <$file
