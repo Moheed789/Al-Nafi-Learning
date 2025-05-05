@@ -1,0 +1,149 @@
+Lecture 5  Conditional Statement in bash script [ PART - 1 ]
+
+In this lecture, we explored how to use conditional statements in Bash scripting. We learned about various command types, how to check command status, and how to use if-else, 
+loops, and logical comparisons to create decision-making scripts. This is essential for building automation and logic control in Bash.
+
+1. Commands and their uses (multiples commands)
+
+Bash provides multiple types of commands, such as comparison, logical conditions, and status checks, to make decisions within scripts.
+
+2. Loops:
+
+For loop
+Used to iterate over a list or range of values.
+
+While loop
+Used to run a command repeatedly as long as a condition is true.
+
+Case statement
+Acts like a switch statement in other languages, used for matching a value against several patterns.
+
+3. Conditional Statements (Mostly used with loops)
+
+Conditional statements are used to control the flow of execution. The most common are if, else, and nested if-else.
+We also use echo $? to check the exit status of the last executed command.
+If the result is 0, the command ran successfully.
+If the result is non-zero, it failed.
+
+4. [ "abc" == "def" ]; echo $?
+
+This command compares two strings. Since they are not equal, it returns 1.
+Example:
+    [ "abc" == "def" ]; echo $?
+    1
+
+5. [ "abc" == "abc" ]; echo $?
+ 
+This comparison returns true since both strings are equal, so it returns 0.
+Example:
+    [ "abc" == "abc" ]; echo $?
+    0
+
+6. [ "abc" == "ABC" ]; echo $?
+
+This fails due to case sensitivity, hence returns 1.
+Example:
+    [ "abc" == "ABC"]; echo $?
+    1
+
+7. [ 265 -gt 10 ]; echo $?
+
+Checks if 265 is greater than 10. Returns 0 because the condition is true.
+Example:
+    [265 -gt 10 ]; echo $?
+    0
+
+8. [ 25 -gt 10 ]; echo $?
+
+Returns 0 as 25 is greater than 10.
+Example:
+    [ 25 -gt 10 ]; echo $?
+    0
+
+9. [ 25 -gt 25 ]; echo $?
+
+Returns 1 because 25 is not greater than 25.
+Example:
+    [ 25 -gt 25 ]; echo $?
+    1
+
+10. [ 25 -lt 25 ]; echo $?
+
+Returns 1 because 25 is not less than 25.
+Example:
+    [25 -lt 25 ]; echo $?
+    1
+
+11. [ 25 -le 25 ]; echo $?
+
+Returns 0 as 25 is less than or equal to 25.
+Example:
+    [25 -le 25 ]; echo $?
+    0
+
+12. [ 25 -le 10 ]; echo $?
+
+Returns 1 because 25 is not less than or equal to 10.
+Example:
+    [25 -le 10 ]; echo $?
+    1
+
+13. Bash if syntax
+
+This is the general syntax of an if-else block in bash scripting.
+Example:
+    if (condition)
+    then
+        statement
+    else
+        stetement
+    fi
+
+14. Script: num.sh
+
+This script asks the user for a number and checks whether it is greater than 5.
+Example:
+    #!/bin/bash
+    echo -n "Enter any number of your choice"
+    read NUM
+    if [[ $NUM -gt 5 ]]
+    then
+        echo "The number is greater than 5. "
+    else
+        echo "The number is less than 5. "
+    fi
+
+15. Script: pass.sh
+
+This script reads the score and checks if it's greater than 80. If so, the user has passed.
+Example:
+    #!/bin/bash
+    echo -n "Your score is="
+    read score
+    if [[ $score -gt 80 ]]
+    then
+        echo "You have passed the exam"
+    else
+        echo "Sorry, You are fail"
+    fi
+
+16. Script: largenumber.sh
+
+This script takes three numbers and determines which one is the largest.
+Example:
+    #!/bin/bash
+    echo -n "a value: "
+    read a
+    echo -n "b value: "
+    read b
+    echo -n "c value :"
+    read c
+    if [[ $a-ge $b]] && [[ $a -ge $c ]]
+    then
+        echo "a is BIG because value is $a"
+    elif [[ $b-ge $a ]] && [[ $b-ge $c ]]
+    then
+        echo "b is BIG"
+    else
+        echo "c is BIG"
+    fi
