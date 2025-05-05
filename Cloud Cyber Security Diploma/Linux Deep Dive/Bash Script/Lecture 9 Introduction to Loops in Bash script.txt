@@ -1,0 +1,92 @@
+Lecture 9 : Introduction to Loops in Bash script.
+
+In this lecture, we discussed what loops are in programming and how Bash supports different types of loops to repeat tasks efficiently. We explored the types of loops in Bash, 
+their syntax, and how to use them with examples. We also learned how to automate file creation and user creation using loops and commands, along with a basic look at redirection 
+and reading from files.
+
+1. What is a loop?
+
+In programming languages, a loop is used to perform a repeated task multiple times.
+A loop is a sequence of instructions that is continually executed until a certain condition is met. It is useful for automation and repetitive tasks.
+
+2. Types of Loops:-
+
+There are four types of loops in Bash:
+Example
+    For loop: Used when the number of iterations is known.
+    While loop: Executes as long as a condition is true.
+    Until loop: Executes until a condition becomes true.
+    Select case loop: Used for menu-driven programs or multiple options.
+
+3. Syntax of a For Loop :-
+
+The for loop runs commands for each item in a list.
+Example:
+    For variable in list
+    do
+        echo "Statement"
+    done
+
+4. Touch command from 1 to 100
+
+To create multiple files at once, the touch command is used in a loop or directly:
+Example:
+touch file1
+touch file2 file3 file4 file5
+
+To add multiple users at once:
+
+adduser user1 user2 user3
+
+This is an example of smart work. You can even create 50 users or 100 files using a loop, which saves time and effort. Example:
+
+for i in {1..50}
+do
+    adduser user$i
+done
+
+5. Command: ls -ltrh
+
+This command is used to list files in the current directory with:
+
+l: long listing
+t: sort by modification time (newest last)
+r: reverse order (oldest first)
+h: human-readable file sizes
+Example:
+    ls -ltrh
+
+6. Command: ls /etc/resolved.conf
+
+This command lists the resolved.conf file in the /etc directory, used for DNS resolution configuration.
+Example:
+    ls /etc/resolved.conf
+
+7. Command: cat abd.txt
+
+The cat command is used to read the contents of a file.
+Example:
+    cat abd.txt
+    Abdeali Dodiya
+    from alnafi
+    Bangalore, India
+
+8. Read from loop
+
+You can use read inside a loop to take input from a user or file line-by-line.
+Example:
+    while read line
+    do
+        echo "$line"
+    done < abd.txt
+
+9. Redirect file
+
+Redirection is used to send output to a file instead of the terminal.
+Example:
+    echo "Hello Bash" > output.txt
+
+This command creates a file output.txt and writes "Hello Bash" into it.
+You can also use >> to append instead of overwrite:
+
+    echo "Another line" >> output.txt
