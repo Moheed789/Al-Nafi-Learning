@@ -1,0 +1,211 @@
+Lecture 4  Introduction to Linux editor | tr | xargs | seq commands
+
+In this lecture, we learned about commonly used Linux file editors, the tr, xargs, and seq commands. We explored how to change directories within a script, use filters to 
+manipulate data, and generate formatted numeric sequences.
+
+1. Bash Script for Changing Directories
+
+This script displays the current directory, then changes the directory and prints the updated path.
+Example:
+    cat second.sh
+    #!/bin/bash
+    echo "My current directory is : $(pwd)"
+    cd /home/abdeali/
+    echo "my changed directory is : $(pwd)"
+    cd /home/abdeali
+
+2. Run Bash Script Using Source Command
+
+To execute the script from Lecture 3, we use the source command so that changes (like cd) apply in the current shell.
+Example:
+    Lecture 3 TASK solution :-
+        source second.sh
+
+3. Linux File Editors Overview
+
+Editors allow us to open and modify files in Linux.
+vi / vim / nano / gedit → Command-line and GUI text editors
+touch → Creates a new, empty file (does not open it)
+cat → Displays the content of a file
+Example:
+    1. vi/vim/nano/gedit --> Editor --> We can edit
+    2. touch: it will create empty file and open it
+    3. cat
+
+4. Content of a File Used for Filtering
+
+This file contains numbers that will be used in upcoming filter examples.
+Example:
+    cat data
+    123
+    45
+    678910
+    11 12
+    13 14
+
+5. tr Command Description
+
+The tr (translate) command is used to replace or transform characters from the input stream.
+Syntax:-
+    tr <find> <replace>
+
+6. Convert Spaces to New Lines and Use xargs to Format in Columns
+
+tr ' ' '\n' converts space-separated values to new lines.
+xargs -n2 groups every 2 values on the same line.
+Example:
+    cat data | tr ' ' '\n' | xargs -12
+    12
+    34
+    56  
+    78
+    9 10
+    11 12
+    13 14
+
+7. Use xargs with Different Column Grouping
+
+This example tries to display the data grouped differently using -13.
+Example:
+    cat data | tr ' ' '\n' | xargs -13
+
+8. Result of Above Command
+
+After converting to new lines and grouping by 3:
+Example:
+    cat data | tr ' ' '\n' | xargs -13
+    123
+    456
+    789
+    10 11 12
+    13 14
+
+9. Use tr Again to Format with + Signs
+
+Replace spaces with + to prepare the data for arithmetic operations.
+Example:
+    cat data | tr '''\n' | xargs -13 | tr'
+    1+2+3
+    4+5+6
+    7+8+9
+    10+11+12
+    13+14
+
+10. Perform Addition with bc (Basic Calculator)
+
+This command calculates the sum of each row created above.
+Example:
+    cat data | tr ' ' '\n' | xargs -13 | tr ' ' '+' | bc
+    6
+    15
+    24
+    33
+    27
+    1237
+
+11. seq Command to Display Number Ranges
+
+seq generates a sequence of numbers. You can control start, step, and end.
+Example:
+    seq 10-2 1
+    10
+    8
+    6
+    4
+    2
+
+12. Invalid Sequence Example (Typo)
+
+This command has an invalid syntax.
+Example:
+    seq 10 -5 50
+
+13. Valid Decreasing Sequence
+
+Generates numbers from 50 to 10, decreasing by 5.
+Example:
+    seq 50 -5 10
+    50
+    45
+    40
+    35
+    30
+    25
+    20
+    15
+    10
+
+14. Repetition for Clarity
+
+Same as above to reinforce understanding.
+Example:
+    seq 50 -5 10
+    50
+    45
+    40
+    35
+    30
+    25
+    20
+    15
+    10
+
+15. man seq for Manual Help
+
+Use man to read full documentation of the seq command.
+Example:
+    man seq
+
+16. -w Option for Padded Numbers
+
+Displays numbers with leading zeroes to maintain width.
+Example:
+    seq -w 01 10
+    01
+    02
+    03
+    04
+    05
+    06
+    07
+    08
+    09
+    10
+    root@ab
+
+17. -s Option to Set Custom Separator
+
+Generates numbers with - separator instead of newline.
+Example:
+    seq -s - 20
+    1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20
+
+18. Invalid Separator Without Quotes
+
+This command fails because the separator is not provided correctly.
+Example:
+    seq -s* 20
+    seq: invalid floating point argument: 'myfirst.sh'
+    Try 'seq --help' for more information.
+
+19. Missing Argument Error Example
+
+Shows that -s must be followed by a valid separator string.
+Example:
+    seq -s # 20
+    seq: option requires an argument -- 's'
+    Try 'seq --help' for more information.
+
+20. Valid Custom Separator #
+
+Shows sequence separated by #.
+Example:
+    seq -s '#' 20
+    1#2#3#4#5#6#7#8#9#10#11#12#13#14#15#16#17#18#19#20
+
+21. Custom Separator with +
+
+Similar to above, but with + separator.
+Example:
+    seq -s '+' 20
+    1+2+3+4+5+6+7+8+9+10+11+12+13+14+15+16+17+18+19+20
