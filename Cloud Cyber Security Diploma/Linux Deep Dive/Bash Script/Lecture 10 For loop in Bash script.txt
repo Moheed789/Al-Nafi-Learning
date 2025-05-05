@@ -1,0 +1,114 @@
+Lecture 10 : For loop in Bash script.
+
+In this lecture, we learned how to use for loops in Bash scripting. The for loop helps us repeat a set of commands for each item in a list or range. We explored different 
+syntaxes like list-based looping, C-style looping, and looping with file permission checks. We also practiced real-time examples like creating multiple files and checking file 
+types and execution permissions using loops.
+
+1. Syntax :-
+
+The basic syntax of a for loop in Bash is:
+Example:
+    for variable in list
+    do
+        echo "Statement"
+    done
+
+2. Simple for loop example
+
+This loop will iterate over the digits 1, 2, 3, 4, 5 and print a message for each.
+Example:
+    #!/bin/bash
+    for var in 12345
+    do
+        echo Hello-$var
+    done
+
+3. Execution output of the above script
+
+Example
+    ./simple.sh
+    Hello-1
+    Hello-2
+    Hello-3
+    Hello-4
+    Hello-5
+
+4. Interview Question:
+
+How to create 10 files using a single command:
+You can use brace expansion in the touch command to quickly create multiple files at once.
+Example:
+    touch file{1..10}
+
+5. For loop with step increment
+
+You can also define a range with steps using curly braces. Here, it loops from 1 to 11 in steps of 2.
+Example:
+    cat simple.sh
+    #!/bin/bash
+    for i in {1..11..2}
+    do
+        echo "Welcome $i"
+    done
+
+6. Execution output of the above script
+
+Example:
+    ./simple.sh
+    Welcome 1
+    Welcome 3
+    Welcome 5
+    Welcome 7
+    Welcome 9
+    Welcome 11
+
+7. C-style for loop syntax in Bash
+
+Another way to write a loop is using C-style syntax with initialization, condition, and increment in parentheses.
+Syntax:
+    for ((var=1; var<=5; var++))
+    do
+        echo $var
+    done
+
+8. Check execution permission of a single file
+
+This script checks if a specific file (e.g., file9) has execute permission.
+Example:
+    #!/bin/bash
+    if [[ -x file9 ]]
+    then
+        echo "simple.sh is having execution permission"
+    else
+        echo "simple.sh is is not having exe permission"
+    fi
+
+9. Check execution permission for multiple files using loop
+
+This loop goes through a list of files and checks if each has execute permission.
+Example:
+    #!/bin/bash
+    for each in file1 file2 file3 file4 file5
+    do
+        if [[ -x $each ]]
+        then
+            echo "$each is having execution permission"
+        else
+            echo "$each is is not having exe permission"
+        fi
+    done
+
+10. Check if each item is a file or directory
+
+This loop uses ls command to iterate through each item in the current directory and identifies whether it's a file or a directory.
+Example:
+    #!/bin/bash
+    for each in $(Is)
+    do
+        if [[ -f $each ]]
+        then
+            echo "$each is file"
+        else
+            echo "$each is directory"
+        fi
+    done
