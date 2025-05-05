@@ -1,0 +1,85 @@
+Lecture 2  Understanding echo and read command.
+
+This lecture introduces you to two important Bash commands — echo for displaying output and read for taking input from the user. It also briefly touches on scripting languages, variable declaration, command substitution, and basic interactive scripting with read.
+
+Scripting :-
+
+Languages like Perl, Python, Ruby, and Bash (also known as Shell or Sh) are all scripting languages used to automate tasks in various environments.
+
+Example:
+	cat /etc/shells
+
+
+1. Bash Script Example:
+
+This is a simple Bash script with some commands.
+
+Example:
+	#!/bin/bash
+	docker-v
+	uname
+
+2. Variable: You can store any value in a variable.
+
+A variable allows you to assign a value and reuse it in your script.
+
+Example:
+	abd=10
+
+3. Command substitution using $() in Linux
+
+You can assign the output of a command to a variable using $(...). This is a common syntax in Linux scripting.
+
+Example:
+	abd=10
+	echo "Abdeali Dodiya"
+	echo abdeali
+	echo 'Abdeali'
+	echo abdeali dodia
+	echo abd
+	echo $abd
+	a="ls"
+	echo $a
+	Is
+	a=$(ls)
+	echo $a
+	touch file.txt
+	touch file2.txt file3 file4
+	echo $a
+	Is
+	echo $a
+	a=$(Is)
+	echo $a
+
+4. read command:
+
+The read command is used to take user input and store it in a variable. If you don’t specify a variable name, it stores the value in the default $REPLY variable.
+
+Example:
+	read
+	Abdeali
+	echo $REPLY
+	Abdeali
+
+Syntax of read:
+
+You can specify a variable name when using read so that the input is stored in that specific variable.
+
+Example:
+	read name
+	salman
+	echo $name
+	salman
+
+6. Task - Read input with a prompt:
+
+You can also use read with the -p flag to show a custom prompt to the user.
+
+Example:
+	read -p "Enter the name:" fname
+	echo $fname
+
+7. echo and read usage summary:
+
+The echo command is used to print/display a message or value.
+The read command is used to take input from the user and store it in a variable.
