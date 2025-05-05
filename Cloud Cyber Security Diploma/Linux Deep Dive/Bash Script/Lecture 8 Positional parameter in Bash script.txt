@@ -1,0 +1,123 @@
+Lecture 8 : Positional parameter in Bash script
+
+In this lecture, we learned how to handle input values passed to Bash scripts using positional parameters like $0, $1, $#, $*, and more. These parameters are used to access 
+arguments provided to the script at runtime. The lecture also covered how to make dynamic service status checkers using both read and positional parameters, including a 
+conditional check for input validation.
+
+1. echo "enter the number" and reading value using read
+
+We use read to capture user input and then use the variable by referencing it with $.
+Example:
+    echo "enter the number"
+    read abd
+    abd --> Abdeali
+    $abd
+
+2. Using variables and accessing them
+
+To assign a value to a variable use = with no spaces. To access the value, prefix with $.
+Example:
+    a=10
+    a
+    $a
+
+3. Common positional parameters and their meaning
+
+This explains special positional parameters used in Bash scripting.
+Example:
+    $0 --> Program or script name
+    $1..$9 --> parameter passed
+    $# --> Count the total number of parameter
+    $* --> Display the parameter passed
+    $@ same as $* both are same
+    $$ --> Provide the current PID of shell
+
+4. Positional parameter example script
+
+This script demonstrates how to use positional parameters in a real script.
+Example:
+    #!/bin/bash
+    echo "This is positional parameter example script" $0
+    echo "Hello, My name is : "$1
+    echo "Here is " $2
+    echo "this is " $3
+    echo "total count value is "$#
+    echo "Display the parameter the passed" $*
+    echo "Fetch information" $@
+    echo "PID of current shell"
+    echo "Exit status of last executed command "$?
+
+5. Running the above script with arguments
+
+Here we pass multiple parameters to the script to test its behavior.
+Example:
+    ./test.sh King Queen Prince ABD alnafi
+    This is positional parameter example script./test.sh
+    Hello, My name is: King
+    Here is Queen
+    this is Prince
+    total count value is 5
+    Display the parameter the passed King Queen Prince ABD alnafi
+    Fetch information King Queen Prince ABD alnafi
+    PID of current shell
+    Exit status of last executed command 0
+
+6. Script using read to get service name and status
+
+This script uses read to take input from the user to perform a systemctl command.
+Example:
+    #!/bin/bash
+    echo "Enter the service name which you want to check"
+    read service_name
+    echo "Enter the status"
+    read status
+    sudo systemctl $status $service_name
+
+7. Same script using positional parameters
+
+Instead of read, this version uses $1 and $2 for dynamic input.
+Example:
+    #!/bin/bash
+    service_name=$1
+    status=$2
+    sudo systemctl $status $service_name
+
+8. Running the above script with arguments
+
+Here is how to call the script with service name and status.
+Example:
+    ./service_status.sh docker status
+
+9. Script with validation for correct number of parameters
+
+This script checks whether exactly two arguments are passed. If not, it gives a user-friendly error.
+Example:
+    #!/bin/bash
+    if [[ $# -ne 2]]
+    then
+        echo "Hey Admin, Please run the script as per instruction"
+        echo "Example : $0 <servicename> <Actionto BeExecuted>"
+        echo "Example: $0 docker status"
+        echo "Action valid: status, stop, start, restart"
+    else
+        service_name=$1
+        status=$2
+        sudo systemctl $status $service_name
+    fi
+
+10. Example when invalid number of arguments passed
+
+When only one argument is passed, the script shows an instructional error message.
+Example:
+    ./service_status.sh docker
+    Hey Admin, Please run the script as per instruction
+    Example: ./service_status.sh <servicename> <Actionto Be Executed>
+    Example: ./service_status.sh docker status
+    Action valid: status, stop, start, restart
+
+11. Example when correct number of arguments passed
+
+When both service name and action are passed, the script executes the command.
+Example:
+    ./service_status.sh docker status
+    docker.service - Docker Application Container Engine
