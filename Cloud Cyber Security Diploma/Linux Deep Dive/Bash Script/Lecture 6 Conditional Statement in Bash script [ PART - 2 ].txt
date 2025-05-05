@@ -1,0 +1,66 @@
+Lecture 6: Conditional Statement in Bash script [ PART - 2 ]
+
+In this lecture, we learned how to check if a service is installed on a Linux system using two methods. The first method involves using the which command and checking the exit 
+status. The second method uses process checking via ps -ef | grep. We also practiced using conditional statements (if, else) to automate service checks. These approaches are 
+helpful for system administrators to verify and monitor software installations.
+
+1. Checking if a Service is Installed using which Command
+
+This method asks the user to input a service name and then uses the which command to locate it. The exit status $? helps determine whether the command exists on the system.
+Example:
+    #!/bin/bash
+    echo "Enter the service which you want check install or not: "
+    read service_name
+    command=$(which $service_name)
+    status=$(echo $?)
+    echo $command
+    echo $status
+    if [[ $status -eq 0 ]]
+    then
+        echo "$service_name is installed on this machine"
+        echo "The docker version is: $($service_name -v)"
+    else
+        echo "The $service_name is not installed"
+    fi
+
+2. Checking Docker Process Count
+
+This method uses ps -ef | grep docker to count how many docker processes are running. It stores the result using command substitution.
+Example:
+    #!/bin/bash
+    commands=$(ps -ef | grep docker | wc-l)
+
+3. Using Condition to Determine if Docker is Installed
+
+This script stores the docker process count and checks if the count is not equal to 1. If it's more than 1, it assumes Docker is running.
+Example:
+    #!/bin/bash
+    commands=$(ps -ef | grep docker | wc-l)
+    echo $commands
+    if [[ $commands -ne 1]]
+    then
+        echo "Docker is installed"
+    else
+        echo "Docker is not installed"
+    fi
+
+4. User Input Based Process Check
+
+This approach prompts the user for any service name and then checks if it’s running using ps -ef | grep.
+Example:
+    #!/bin/bash
+    echo "Enter the service name which you want check installed or not"
+    read service_name
+    commands=$(ps -ef | grep $service_name | wc-l)
+    if [[ $commands -ne 1]]
+    then
+        echo "$service_name is installed"
+    else
+        echo "$service_name is not installed"
+    fi
+
+5. What We Learned
+
+We learned two ways to check if a service is installed or running:
+Method 1: Use the which command and check the exit status using $?
+Method 2: Use ps -ef | grep <service_name> and check the number of processes found.
