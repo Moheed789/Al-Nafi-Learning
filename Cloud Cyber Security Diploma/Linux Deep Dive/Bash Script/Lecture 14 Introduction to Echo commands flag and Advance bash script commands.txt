@@ -1,0 +1,204 @@
+Lecture 14 : Introduction to Echo commands flag and Advance bash script commands.
+
+In this lecture, we explored the echo command with -e flag to interpret backslash escape characters in Bash scripting. This allows us to add formatting like newlines, tabs, 
+alerts, and more into our outputs. We also learned about special Bash scripting methods like here documents (cat <<) and file redirection. Additionally, we covered the tr 
+command for case conversion and how to write both single and multi-line comments in Bash scripts.
+
+Note:
+
+The -e option with the echo command enables interpretation of backslash escapes.
+
+1. \ --> Backslash for Double Quotes
+
+To print double quotes inside a string, we use the backslash (\) to escape them.
+Example:
+    echo -e "My name is \"Abdeali Dodiya\", I am from Bangalore, India"
+    My name is "Abdeali Dodiya", I am from Bangalore, India
+
+2. \a --> Alert (BEL)
+
+This escape character triggers an alert sound (bell), though it might not be audible on all systems.
+Example:
+    echo -e "\aMy sample shell script"
+    My sample shell script
+
+3. \b --> Backspace
+
+It removes the character before it.
+Example:
+    echo -e "Abde\bali Dodiya"
+    Abdali Dodiya
+
+    echo -e "Abdeali \bDodiya"
+    AbdealiDodiya
+
+4. \c --> Suppress Trailing Newline
+
+It suppresses the part of the string after \c.
+Example:
+    echo -e "Abdeali Dodiya, \nI am from\c Bangalore"
+    Abdeali Dodiya,
+    I am from
+
+5. \f --> Form Feed
+
+This inserts a form feed character, which can clear or skip a page on some terminals.
+Example:
+    echo -e "\fAbdeali Dodiya, \nl am from Bangalore"
+    Abdeali Dodiya,
+    I am from Bangalore
+
+6. \n --> New Line
+
+Used to move the cursor to the next line.
+Example:
+    #echo -e "Abdeali Dodiya, \nI am from Bangalore"
+    Abdeali Dodiya,
+    I am from Bangalore
+
+7. \t --> Horizontal Tab
+
+Inserts a horizontal tab (space).
+Example:
+    echo -e "Abdeali Dodiya from bangalore"
+    Abdeali Dodiya from bangalore
+
+    echo -e "Abdeali Dodiya from \tbangalore"
+    Abdeali Dodiya from bangalore
+
+    echo -e "Abdeali Dodiya from \t\tbangalore"
+    Abdeali Dodiya from bangalore
+
+    echo -e "Abdeali Dodiya from \t\t\tbangalore"
+    Abdeali Dodiya from
+    bangalore
+
+8. \v --> Vertical Tab
+
+Inserts a vertical tab between text.
+Example:
+    echo -e "Abdeali Dodiya from \vBangalore"
+    Abdeali Dodiya from
+    Bangalore
+
+    echo -e "Abdeali Dodiya from \v\tBangalore"
+    Abdeali Dodiya from
+    Bangalore
+
+9. Script to Display Current User and Directory
+
+This script uses environment variables like $USER and $PWD to display the current username and working directory.
+Example:
+    cat HS.sh
+    #!/bin/bash
+    echo "My current user is $USER"
+    echo "My current working direction is $PWD"
+
+10. Script Execution Output
+
+After executing the script, it prints current user and path.
+Example:
+    ./HS.sh
+    My current user is root
+    My current working directory is /root/bash/lect14
+
+11 Using Here Document (cat <<)
+
+This method uses cat << to print multiple lines with variables.
+Example:
+    cat HS.sh
+    #!/bin/bash
+    cat << ABD 
+    My current user is $USER
+    My current working directory is $PWD
+    ABD
+
+12. Output Redirection to File
+
+We can redirect script output into a file using >> or >.
+Example:
+    ./HS.sh >> file1.txt
+    cat file1.txt
+    My current user is root
+    My current working directory is /root/bash/lect14
+
+Using cat << and redirecting to a new file:
+
+    cat HS.sh
+    #!/bin/bash
+    cat << ABD > file2.txt
+    My current user is $USER
+    My current working directory is $PWD    
+    ABD
+
+13. Convert Lowercase to Uppercase using Pipe
+
+The tr command can be used to convert case via a pipe.
+Example:
+    echo "We are learning bash at Alnafi" | tr [a-z] [A-Z]
+    WE ARE LEARNING BASH AT ALNAFI
+
+14. Convert String to Uppercase Using Here String
+
+Using <<< to directly pass a string to tr.
+Example:
+    tr [a-z] [A-Z] <<< "we are learning bash at alnafi"
+    WE ARE LEARNING BASH AT ALNAFI
+
+15. Variable Declaration and Access
+
+A string variable is declared and accessed using $.
+Example:
+    echo $abd
+    we are learning bash at alnafi
+
+16. Convert Variable to Uppercase
+
+The variable content is passed to tr for uppercase conversion.
+Example:
+    tr [a-z] [A-Z] <<< $abd
+    WE ARE LEARNING BASH AT ALNAFI
+    DOCKER VERSION 20.10.14, BUILD A224086
+
+17. Docker Version Check
+
+Command to check installed Docker version.
+Example:
+    docker-v
+    Docker version 20.10.14, build a224086
+
+18. Comments in Bash
+Single Line comments :-
+
+Used with # before each comment line.
+Example:
+    #Name: Abdeali dodiya
+    #Script name: comments.sh
+    #Script purpose: for education
+    echo "Hi"
+
+Multi Line comments :-
+
+Different ways to write multi-line comments in bash:
+Example:
+    << ABD
+    Name: Abdeali dodiya
+    Script name: comments.sh
+    Script purpose: for education
+    ABD
+    echo "Hi"
+    OR
+    :"
+    Name: Abdeali dodiya
+    Script name: comments.sh
+    Script purpose: for education
+    "
+    OR
+    cat comments.sh
+    :'
+    Name: Abdeali dodiya
+    Script name: comments.sh
+    Script purpose: for education
+    echo "Hi"
+    '
+    echo "Hi"
