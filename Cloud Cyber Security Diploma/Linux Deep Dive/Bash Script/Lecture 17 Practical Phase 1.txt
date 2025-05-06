@@ -1,0 +1,163 @@
+Lecture 17 : Practical Phase 1 - Solution
+
+In this lecture, we covered the first phase of practical Bash scripting. The focus was on handling user input using different methods such as read, timed input, arithmetic 
+operations, conditional logic, and case statements. We also learned how to loop through values and how multiple variables can be captured with read. These concepts are essential 
+for building interactive and logical scripts in Bash.
+
+1. Task 1
+
+This task introduces how to read input from the user using the read command. It also uses echo -n to display a prompt without a newline.
+Example:
+    cat task1.sh
+    #!/bin/bash
+    echo -n "Enter the text>"
+    read text
+    echo "You option is: $text"
+
+2. Task 2
+
+In this task, we use the read -p syntax which allows us to display a prompt message and accept user input in the same line.
+Example:
+    #!/bin/bash
+    read -p "Enter the text >" text
+    echo "You option is: $text"
+
+3. Task 3
+
+This task demonstrates how to use the read command with a timeout using -t. If the user doesn't input within 3 seconds, it displays a timeout message.
+Example:
+    cat task3.sh
+    #!/bin/bash
+    echo -n "Hurry Up and type something :>"
+    if read -t 3 res;
+    then
+        echo "Great, you are very fast!!"
+    else
+        echo "Sorry, you are too slow !!!"  
+    fi
+
+4. Running task3.sh (Example: No input within time)
+
+This example shows what happens when the user doesn't input anything within 3 seconds.
+Example:
+    ./task3.sh
+    Hurry Up and type something: >Sorry, You are too slow !!!
+
+5. Running task3.sh (Example: User enters input quickly)
+
+Here, the user types “Abdeali” quickly, and the script confirms fast input.
+Example:
+    ./task3.sh
+    Hurry Up and type something :>Abdeali
+    Great, you are very fast!!
+
+6. Task 4
+
+This task performs arithmetic operations. It reads two numbers and calculates their sum, difference, product, division, modulus, and power.
+Example:
+    cat task4.sh
+    #!/bin/bash
+    first=0
+    second=0
+    read -p "Enter the first number:" first
+    read -p "Enter the second number:" second
+    echo "First number + second number = $(( first + second))"
+    echo "First number-second number = $(( first - second))"
+    echo "First number* second number = $((first * second))"
+    echo "First number / second number = $(( first / second))"
+    echo "First number % second number = $(( first % second))"
+    echo "Power of the second = $(( first ** second))"
+
+7. Task 5
+
+This task checks whether a number entered by the user is even or odd using the modulus operator %.
+Example:
+    cat task5.sh
+    #!/bin/bash
+    read -p "Enter the number>" number
+    echo "Your number is $number"
+    if [ $((number % 2)) -eq 0 ];
+    then
+        echo "Number is even"
+    else
+        echo "Number is Odd"
+    fi
+
+8. Task 6
+
+This task shows the default variable REPLY used by read when no variable name is provided.
+Example:
+    read
+    Abdeali Dodiya From Bangalore, India
+    echo $REPLY
+    Abdeali Dodiya From Bangalore, India
+
+9. Task 7
+
+This task uses read to take multiple inputs and assigns each input to separate variables.
+Example:
+    read input1 input2 input3
+    Abdeali Dodiya Bangalore
+    echo $input1
+    Abdeali
+    echo $input2
+    Dodiya
+    Bangalore
+    echo $input3
+    echo $input4
+    echo $input5
+
+10. Task 8
+
+This task shows how multi-line input is handled when using read and how line continuation (\) works in Bash.
+Example:
+    read input1 input2 input3
+    Hello
+    > is a cool \
+    > are script
+    echo $input1
+    Hello
+    echo $input2
+    is
+
+11. Task 9
+
+This task uses a for loop to iterate through weekdays and print them with a number prefix.
+Example:
+    cat task9.sh
+    #!/bin/bash
+    i=1
+    for day in Mon Tue Wed Thu Fri
+    do
+        echo "Weekday $((i++)) : $day"
+    done
+
+Execution Output:
+    ./task9.sh
+    Weekday 1: Mon  
+    Weekday 2: Tue
+    Weekday 3: Wed
+    Weekday 4: Thu
+    Weekday 5: Fri
+
+12. Task 10
+
+This task uses a case statement to evaluate the type of input entered by the user — number, lowercase, or uppercase — and prints a message accordingly.
+Example:
+    cat task10.sh
+    #!/bin/bash
+    read -p "Enter the number :" num
+    case $num in
+    [0-9])
+        echo " You enter the single number"
+    ;;
+    [a-z])
+        echo "You enter the lower case"
+    ;;
+    [A-Z])
+        echo "You enter the lower case"
+    ;;
+    *)
+        echo "Sorry, We are unable to find!!!"
+    ;;
+    esac
