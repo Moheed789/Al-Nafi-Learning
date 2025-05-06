@@ -1,0 +1,162 @@
+Lecture 22 : Filter and Cut Commands in Bash Script
+
+In this lecture, we explored how to extract specific information from text files using filtering techniques like grep and field extraction commands like cut. We began with 
+filtering URLs using regular expressions and then learned how to extract bytes, characters, and fields using the cut command with different options and delimiters. The cut 
+command is a powerful tool in Bash for breaking down structured data.
+
+TASK Solution :-
+
+1. Filtering URLs using grep
+
+We first created a file named url.txt containing various types of text and URLs. Then, we used a regular expression with grep -E to filter only the lines containing valid http, 
+https, or ftp URLs. The ^ symbol is used to match the beginning of a line, and the expression includes protocols followed by valid domain names.
+Example:
+    # cat url.txt
+    We have some url example so please find below for your grep command.
+    Please check and let me know if you are solving.
+    
+    http://google.com
+    https://google.com
+    ftp://mywebserver.net
+    ftp://myweb.edu
+    https://mywebsite.com
+    I hope you enjoyed.
+
+    # cat url.txt | grep -E "^(http|https|ftp):[\/]{2}([a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,4})"
+    http://google.com
+    https://google.com
+    ftp://mywebserver.net
+    ftp://myweb.edu
+    https://mywebsite.com
+
+2. Syntax and Options for the cut Command
+
+The cut command is used to extract portions of text from each line of a file. You can specify options like bytes, characters, or fields.
+Syntax:
+    cut <option> filename
+    OR
+    filename | cut <option>
+
+3. -b or --bytes=LIST Option
+
+This option is used to select specific bytes from each line of the file.
+Example:
+    # cat abd.txt | cut -b 1-6
+    My nam
+    I am f
+    I am w
+    We are
+    devops
+    Devops
+
+    We wil
+    We wil
+    Devops
+
+4. -c or --characters=LIST Option
+
+This option selects specific characters from each line of a file. It’s similar to the byte option but character-based.
+Example:
+    # cat abd.txt | cut -c 1-6
+    My nam
+    I am f
+    I am w
+    We are
+    devops
+    Devops
+
+    We wil
+    We wil
+    Devops
+
+
+5. -c 1- Option to Print from First Character Onward
+
+Using cut -c 1- will print each line starting from the first character onward.
+Example:
+    # cat abd.txt | cut -c 1-
+    # docker -v | cut -c 16-23
+    20.10.14
+
+    # mydocker=$(docker -v | cut -c 16-23)
+    # echo "My docker version is: $mydocker"
+    My docker version is: 20.10.14
+
+6. Using cut -f to Extract Fields
+
+Fields are tab-separated by default unless you define a delimiter. -f1 will extract the first field, -f2 the second, and so on.
+Example:
+    # cat testing.txt
+    my name is abdeali dodiya
+    I am from bangalore 
+    I am working in alnafi
+
+    # cat testing | cut -f1
+    cat: testing: No such file or directory
+
+    # cat testing.txt | cut -f1
+    my
+    I
+    I
+
+    # cat testing.txt | cut -f2
+    name
+    am
+    am
+
+    # cat testing.txt | cut -f3
+    is
+    from
+    working
+
+    # cat testing.txt | cut -f4
+    abdeali
+    bangalore
+    in
+
+    # cat testing.txt | cut -f5
+    dodiya
+    alnafi
+
+7. Using cut with Delimiters
+
+You can define custom delimiters using -d. In /etc/passwd, fields are separated by colons (:)
+Example:
+    # cat /etc/passwd | cut -d ":" -f 1
+
+    # cat /etc/passwd | cut -d ":" -f 1-4 | grep "alnafi"
+    alnafi:x:1006:1008
+
+    # cat /etc/passwd | cut -d ":" -f 1- | grep "alnafi"
+    alnafi:x:1006:1008::/home/alnafi:/bin/bash
+
+8. --output-delimiter Option
+
+This option is used to change the default delimiter in the output to a custom one.
+Example:
+    # cat /etc/passwd | cut -d ":" -f 1-10 --output-delimiter="-->" | grep alnafi
+    alnafi-->>-->1006-->1008-->-->/home/alnafi-->/bin/bash
+
+9. --complement Option
+
+This option prints the complement of the selected fields — meaning it prints everything except the specified field.
+Example:
+    # cat /etc/passwd | cut --complement -d ":" -f 1
+
+10. Combination Cut Examples
+    
+More practical examples using multiple cut commands together.
+Example:
+    # docker -v | cut -d "," -f1 | cut -d " " -f3
+
+    # free -gt | grep -E "Total:" | cut -d " " -f 13
+
+    # df -h | grep -E "/dev/mapper/vgubuntu-root" | cut -d " " -f 10
+
+11. TASK: Extracting from a CSV File
+
+You can use the cut command to extract specific fields from a CSV file. Here’s an example file Ips.csv:
+Example:
+    apache,192.168.1.2
+    sftp,192.168.1.3
+    nginx,192.168.1.5
