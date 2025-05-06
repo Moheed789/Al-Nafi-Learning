@@ -1,0 +1,123 @@
+Lecture 18 : String Operation in Bash Script
+
+In this lecture, we explored various string operations in Bash scripting. These operations include declaring and printing strings, measuring string length, concatenation, 
+converting cases (upper/lower), replacing and removing words or characters, and working with string patterns or slicing. Understanding these operations is essential for 
+efficient text processing and script automation in Linux.
+
+1. Declaring and Displaying a String Variable
+
+We can declare a string in a variable and display it using echo. There are two ways to print a string: directly with $variable or using curly braces ${variable} for clarity
+and safety
+Example:
+    #MESSAGE="Learning bash is so much fun"
+    #echo $MESSAGE  
+    OR
+    #echo "${MESSAGE}"
+    
+2. Length
+
+To get the length of a string stored in a variable, use the ${#variable} syntax.
+Example:
+    root@abdealidodia:~#msg="Abdeali"
+    echo "${msg}"
+    Abdeali
+    echo "${#msg}"
+    7
+
+3. Concatenation
+
+You can concatenate two strings simply by placing variables next to each other.
+Example:
+    #rootpath="/etc"
+    # filepath="/os-release"
+    #fullpath=$rootpath$filepath
+    echo $fullpath
+    /etc/os-release
+
+4. Upper case and Lowercase
+
+To convert strings to uppercase or lowercase, Bash provides ${var^^} and ${var,,}. Alternatively, tr command can also be used for case conversion.
+Example:
+    echo $msg
+    Abdeali
+    echo "${msg}"
+    Abdeali
+    echo "${msg^^}"
+    ABDEALI
+    echo "${msg^^}" #capital OR Upper
+    ABDEALI
+    echo "${msg,,}" #Lowercase
+    abdeali
+    echo "$msg"
+    Abdeali
+    echo "$msg" | tr [a-z] [A-Z]
+    ABDEALI
+    echo "$msg" | tr [a-z] [A-Z] # Upper
+    ABDEALI
+    echo "$msg" | tr [A-Z] [a-z] # Upper
+    abdeali
+
+5. Replace
+
+To replace a word in a string, you can use the ${variable/old/new} syntax.
+Example:
+    #MESSAGE="Learning bash is so much fun"
+    #echo $MESSAGE
+    OR
+    #echo "${MESSAGE}"
+
+6. Find OR search / Replace
+
+You can search for a word in a string and replace it using Bash substitution.
+Example:
+    echo ${MESSAGE/Learning/Reading}
+    Reading bash is so much fun
+    echo ${MESSAGE}
+    Learning bash is so much fun
+
+7. Remove word from string
+
+To remove a specific word from a string, just omit the replacement part in the substitution syntax.
+Example:
+    echo ${MESSAGE}
+    Learning bash is so much fun
+    echo ${MESSAGE/Learning}
+    bash is so much fun
+
+8. Character Replace
+
+To replace a single character within the string, use ${variable/char1/char2}.
+Example:
+    echo ${MESSAGE}
+    Learning bash is so much fun
+    echo ${MESSAGE/L/I}
+    learning bash is so much fun
+
+9. Pattern
+
+To manipulate substrings or patterns within strings, you can use slicing and replacement techniques.
+Example:
+    name="Raza"
+    echo "${name}"
+    Raza
+    echo "${name/R/r}"
+    raza
+    echo "${name:0:2}"
+    Ra
+    echo "${name:0:3}"
+    Raz
+    echo "${name:0:4}"
+    Raza
+    echo "${name:0:5}"
+    Raza
+    echo "${name:1:5}"
+    aza
+    echo "${name::-1}"
+    Raz
+    echo "${name::-3}"
+    R
+    echo "${name::-2}"
+    Ra
+    echo "${name::-1}"
+    Raz
+    echo "${name::0}"
