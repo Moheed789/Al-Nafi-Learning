@@ -1,0 +1,77 @@
+Lecture 16 : Control and Break Statement in Bash Script
+
+In this lecture, we learned how control statements like break and continue work inside Bash loops. break is used to exit the loop when a certain condition is met, while continue
+skips only the current iteration and continues the loop from the next value.
+
+1. Control Statement VS Break Statement
+
+1. Break :-
+    
+Break is used to exit your current loop immediately when a condition is met.
+It terminates the loop execution and continues with the next statement after the loop.
+Example:
+    cat break_st.sh
+    #!/bin/bash
+    echo "Starting the loop"
+    for i in $(seq 1 10)
+    do
+        echo $i
+    done
+    echo "Ending the loop"
+
+Example with Break Statement:
+    cat break_st.sh
+    #!/bin/bash
+    echo "Starting the loop"
+    for i in $(seq 1 10)
+    do
+        if [[ $i -eq 5 ]]
+        then
+            break
+        else
+            echo $i
+        fi
+    done
+    echo "Ending the loop"
+
+Output:
+    ./break_st.sh
+    Starting the loop
+    1
+    2
+    3
+    4
+    Ending the loop
+
+2. Continue:-
+
+Continue is used to skip the current iteration when a specific condition is met.
+It doesn’t exit the loop, instead it jumps directly to the next loop iteration.
+Example:
+    cat cont_st.sh
+    #!/bin/bash
+    echo "Starting the loop"
+    for i in $(seq 1 10)
+    do
+        if [[ $i -eq 5 ]]
+        then
+            continue
+        else
+            echo $i
+        fi
+    done
+    echo "Ending the loop"
+
+Output:
+    ./cont_st.sh
+    Starting the loop
+    1 
+    2 
+    3 
+    4 
+    6 
+    7
+    8
+    9
+    10
+    Ending the loop
