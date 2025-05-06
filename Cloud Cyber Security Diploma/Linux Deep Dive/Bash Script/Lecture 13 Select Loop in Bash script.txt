@@ -1,0 +1,144 @@
+Lecture 13 : Select Loop in Bash script.
+
+This lecture explains different types of loops in Bash scripting, focusing especially on the Select Loop, which is useful for creating menu-driven programs. It covers the 
+syntax and usage of the case statement used with user input, and shows real examples of implementing basic choices and file-based menus using select and case
+
+1. Loop Types
+
+In Bash, there are multiple types of loops that help automate repetitive tasks. The commonly used loop types include:
+1. For Loop: Iterates over a list or range of items.
+2. While Loop: Runs a block of code while a condition is true.
+3. While IFS Loop: Reads input line by line using Internal Field Separator.
+4. Until Loop: Runs until a certain condition becomes true.
+
+Select Loop: Ideal for interactive menu-based programs.
+
+2. Select Loop: Used for menu-driven program
+
+The Select Loop is a special kind of loop in Bash scripting. It is commonly used to create simple menu systems where the user selects an option from a list. The value selected 
+is stored in a variable and used in a case statement.
+
+3. Select Loop Syntax
+
+Here’s the structure of a typical Select Loop using a case statement.
+Syntax:
+    case <variable> in
+    pattern)
+        statement
+    ;;
+    patter)
+        statement
+    ;;
+    *)
+        statement
+    ;;
+    esac
+
+4. Simple Case Menu Example
+
+Example:
+    cat simple.sh
+    #!/bin/bash
+    echo "Please enter the number betweeen 1 to 3"
+    read num
+    case $num in
+    1)
+        echo "You have enter the one number"
+    ;;
+    2)
+        echo "You have enter two"
+    ;;
+    3)
+        echo "You have enter the Three"
+    ;;
+    *)
+        echo "Sorry You have enter the wrong number"
+    ;;
+    esac
+
+5. Output Example: Correct Option 
+
+Example:
+    ./simple.sh
+    Please enter the number betweeen 1 to 3
+    2
+    You have enter two
+
+6. Output Example: Invalid Option
+
+Example:
+    ./simple.sh
+    Please enter the number betweeen 1 to 3
+    4
+    Sorry You have enter the wrong number
+
+7. Output Example: Valid Option
+
+Example:
+    ./simple.sh
+    Please enter the number between 1 to 3
+    1
+    You have enter the one number
+
+8. File Extension Case Menu Example
+
+This script lets the user input a file extension and lists all matching files using a case structure.
+Example:
+    #!/bin/bash
+    clear
+    echo "Enter your file extension: "
+    read ext
+    case $ext in
+    ".txt")
+        Is-ltrh *.txt
+    ;;
+    ".sh")
+        Is -ltrh *.sh
+    ;;
+    *)
+        echo "Sorry, You have enter the invalid file extention"
+    ;;
+    esac
+
+9. Menu Driven Script with Options
+
+This script displays a menu with system information options and performs actions based on the user's choice.
+Example:
+    cat menudriven.sh
+    #/bin/bash
+    echo -e "\n1. Operating System information\n"
+    echo -e "\n2. Hostaname inforamtion\n"
+    echo -e "\n3. Memory details\n"
+    echo -e "\n4. My disk usage\n"
+    echo -e "\n5 Exit\n"
+    echo "Enter your choice"
+    read choice
+    case $choice in
+    1)
+        echo "Your linux system information: $(uname -a)"
+    ;;
+    2)
+        echo "Hostname is: $(hostname)"
+    ;;
+    3)
+    echo "$(free-g)"
+    ;;
+    4)
+        echo "$(df-h)"
+    ;;
+    5)
+        echo "Bye Bye"
+        exit 1
+    ;;
+    esac
+
+10. TASK:-
+
+Please make a menu-based Bash script using select and case with the following choices:
+1. OS
+2. Hostname
+3. Memory
+4. Disk details
+5. Network IP details
+6. Last Logged users
+7. Process usage
