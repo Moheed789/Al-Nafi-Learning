@@ -1,0 +1,197 @@
+Lecture 20 : Understanding to Function in Bash Script.
+
+This lecture explains the concept of functions in Bash scripting. It covers how functions help reduce code repetition, improve readability, and manage large scripts in modular 
+form. The lecture also discusses different methods of defining functions, how to call them, the concept of global and local variables, return values, and how to pass arguments 
+into functions.
+
+1. Function:
+
+A function is a block of code that reduces unwanted repetitive lines in your script. It helps organize lengthy scripts into manageable and reusable sections.
+Example:
+    #!/bin/bash
+    test()
+    {
+        echo "Abdeali Dodiya"
+        echo "Hello Everyone"
+    }
+    echo " i am using sample function"
+    test
+
+    echo "This is my another function calling"
+    test
+
+    echo "=================Third times==================="
+    test
+
+2. Function Two Types of Definition:
+
+In Bash, functions can be defined in two ways:
+
+1. Method 1:
+Example:
+    function test()
+    {
+        echo "Abdeali Dodiya"
+        echo "Hello Everyone"
+    }
+    echo " i am using sample function"
+    test
+
+    echo "This is my another function calling"
+    test
+
+    echo "=================Third times===================" 
+    test
+
+2. Method 2:
+Example:
+    test()
+    {
+        echo "Abdeali Dodiya"
+        echo "Hello Everyone"
+    }
+
+3. Function with System Commands:
+
+You can define a function that executes system-level commands such as checking machine status, date, and memory usage.
+Example:
+    cat mach.sh
+    {
+        #!/bin/bash
+        mach()
+        echo -e "\n Machine information"; uname -a 
+        echo -e "\n Current date" ; date
+        echo -e "\n machine status"; uptime
+        echo -e "\n Filesystem status"; df -h
+        echo -e "\n Memory details"; free -g
+    }
+    mach
+    sleep 1
+    mach
+    sleep 3
+    mach
+
+4. Variable in Function:
+
+There are two types of variables inside a function:
+
+Global Variable: Defined outside the function and accessible throughout the script.
+Local Variable: Defined inside the function and accessible only within the function.
+
+5. Global Variable Example:
+
+In this example, abd is defined outside the function and accessed within it. The function can modify its value globally.
+Example
+    #!/bin/bash
+    mytest()
+    {
+        echo "my value is: $abd"
+    }
+
+    abd=12
+    mytest
+
+6. Global Variable Behavior:
+
+Here, a global variable abd is modified inside the function, and its updated value is available globally after the function call.
+Example:
+    cat global.sh
+    #!/bin/bash
+    mytest()
+    {
+        ali=12
+        echo "my value is : $abd"
+        abd=15
+    }
+    abd=13
+    mytest
+    echo "My second value is $abd"
+
+7. Local Variable Concept:
+
+Local variables are declared inside the function using the local keyword. These are not accessible outside the function.
+Example:
+    cat local.sh
+    #!/bin/bash
+    mytest()
+    {
+        ali=12
+        echo "ABD value is $abd"
+        kazim=13
+        local alnafi=786
+    }
+    kazim=15 #GLOBAL
+    mytest
+    echo "Ali value is $ali"
+    echo "Kazim value is $kazim"
+    echo "Alnafi value is $alnafi"
+
+8. Output of Local Variable Script:
+
+This shows the result of executing the above script, where the local variable alnafi does not appear in the output outside the function.
+Example:
+    ./local.sh
+    ABD value is
+    Ali value is 12
+    Kazim value is 13
+    Alnafi value is
+
+9. Capturing Function Output:
+
+You can use local inside the function and capture the value outside using command substitution.
+Example:
+    cat local.sh
+    #!/bin/bash
+    mytest()
+    {
+        local ali=10
+        echo "Ali value is $ali"
+    }
+    mytest
+    ali=$(mytest)
+    echo "Ali value is outside function: $ali"
+
+10. Function Return Values:
+
+You can use the return keyword to send numeric values back from the function, and access it via $?.
+Example:
+    #!/bin/bash
+    myvar()
+    {
+        local ali=10
+        return $ali
+    }
+    myvar
+    echo "My return value is : $?"
+    abd=$?
+    echo "My return value is : $abd"
+
+11. Argument Passing to Function:
+
+You can pass values into functions as positional parameters like $1, $2, etc.
+Example 1:
+    #!/bin/bash
+    test()
+    {
+        echo "Hello $1"
+    }
+    test ALI
+    test ABD
+
+Example 2:
+    cat pass.sh
+    #!/bin/bash
+    add()
+    {
+        first=$1
+        second=$2
+        ans=$((first + second))
+        echo "$first + $second is: $ans"
+    }
+    first=10
+    second=20
+    add $first $second
+    abd=200
+    ali=20
+    add $abd $ali
+    add 100 200
