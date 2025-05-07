@@ -1,0 +1,186 @@
+Lecture 23: AWK Commands in Bash Script
+
+This lecture covers the use of AWK in Bash scripting, which is a powerful tool for processing and analyzing text files. It includes basic syntax, options, and important built-in
+variables like $0, $1, NR, and NF. The lecture also demonstrates practical examples on files such as /etc/passwd and userdata.txt, showing how AWK helps in extracting specific 
+fields, printing customized outputs, and generating simple reports. The comparison of grep, cut, and awk is also highlighted for better understanding of their use cases.
+
+1. AWK – Introduction
+
+AWK is a command-line utility in Unix/Linux used for pattern scanning and processing. It is primarily used for data manipulation, searching, running tasks based on patterns, and
+generating reports from structured data.
+
+2. AWK Syntax
+
+There are two common syntaxes to use AWK:
+
+When piping input from a command:
+command | awk [options] 'pattern {action}'
+
+When providing a file directly to AWK:
+awk [options] 'pattern {action}' filename
+
+3. AWK Options
+
+AWK supports several options. Two of the most important are:
+
+-F : This is used to specify the field separator (e.g., comma, colon, space).
+-f : This option is used to specify the file that contains the AWK script.
+
+4. Example using /etc/passwd
+
+Example:
+    cat /etc/passwd | awk '{}'
+
+5. Print static text using AWK
+
+You can print fixed text using AWK without processing input fields.
+Example:
+    # cat /etc/passwd | awk '{ print "Abdeali"}'
+
+6. AWK Variables
+
+AWK has built-in variables used to manipulate data fields and records.
+Example:
+    1. $0, $1, $2 $3 $4 so on
+    2. NR --> Number of records
+    3. NF --> Number of Fields
+    4. FILE
+
+7. Sample Data in userdata.txt
+
+This is a sample user data file used for the AWK command demonstrations.
+Example:
+    # cat userdata.txt
+    id Name Age username
+    1 Ali 27 ali
+    2 ABD 35 abd
+    3 Kazim 33 kazim
+    4 Abdeali 32 abdeali
+
+8. Printing all lines using AWK
+
+AWK can print entire content without specifying a field.
+Example:
+    # cat userdata.txt | awk '{print }'
+
+9. Print full lines using $0
+
+To explicitly print the whole line, use $0.
+Example:
+    # cat userdata.txt | awk '{print $0}'
+
+10. Print specific field using $2
+
+To print only the second field from each line:
+Example:
+    # cat userdata.txt | awk '{print $2}'
+
+11. Print multiple fields ($1 and $2)
+
+You can combine fields to show multiple values per line.
+Example:
+    # cat userdata.txt | awk '{print $1,$2}'
+
+12. Print $2 and $3 together
+
+This command shows the name and age fields only.
+Example:
+    # cat userdata.txt | awk '{print $2,$3}'
+
+13. Print line numbers using NR
+
+NR prints the current line number for each line.
+Example:
+    # cat userdata.txt | awk '{print NR}'
+
+14. Combine NR with $1 (no separator)
+
+This creates a merged string of line number and first field.
+Example:
+    # cat userdata.txt | awk '{print NR $1}'
+
+15. Add arrow separator with NR and $1
+
+This gives a clearer view by separating line number and data with -->.
+Example:
+    # cat userdata.txt | awk '{print NR "-->" $1}'
+
+16. Print entire line with NR and NF
+
+Combines line number with full line and total number of fields.
+Example:
+    # cat userdata.txt | awk '{print NR "-->" $0,NF}'
+
+17. Print full content and last field ($NF)
+
+$NF gives the last field of each line.
+Example:
+    # cat userdata.txt | awk '{print NR "-->" $0,$NF}'
+
+18. Print full line with NR only
+
+This is a clean way to list each line with its line number.
+Example:
+    # cat userdata.txt | awk '{print NR "-->" $0}'
+
+19. Incorrect use of $NR (for learning)
+
+This line is syntactically valid but may behave unpredictably due to $NR not being a fixed variable like $1, $2.
+Example:
+    # cat userdata.txt | awk '{print $NR "-->" $0}'
+
+20. Print only the first record (header)
+
+Using condition NR==1 will restrict output to the first line.
+Example:
+    # cat userdata.txt | awk NR==1
+    # cat userdata.txt | awk 'NR==1'
+
+21. Print second field of the first record
+
+This fetches "Name" from the header row.
+Example:
+    # cat userdata.txt | awk 'NR==1{print $2}'
+
+22. Using cut with field separator
+
+This example uses cut to print the second field using : as a delimiter.
+Example:
+    # cat /etc/passwd | cut -d ":" -f2
+
+23. Print first field using AWK
+
+Default delimiter (whitespace) is used unless specified.
+Example:
+    # cat /etc/passwd | awk '{print $1}'
+
+24. Print first field with custom delimiter
+
+Here : is set as the field separator using -F.
+Example:
+    # cat /etc/passwd | awk -F ':' '{print $1}'
+    # cat /etc/passwd | awk --field-separator=':' '{print $1}'
+
+25. Search and print using AWK in CSV
+
+AWK searches for the pattern and prints the second field when match is found.
+Example:
+    # cat data.csv | awk -F"," '/kazim/ {print $2}'
+
+26. Get service status using AWK and NR
+
+This prints the second column of the third line.
+Example:
+    # systemctl status apache2 | awk 'NR==3 {print $2}'
+
+27. Difference between GREP, CUT vs AWK
+
+When using grep and cut, multiple commands are chained to extract specific information.
+Example:
+    # apache2 -v | grep -E "version" | cut -d ":" -f 2 | cut -d "/" -f 2 | cut -d " " -f1
+    # apache2 -v | grep -E "version" | cut -d "/" -f2 | cut -d " " -f1
+
+AWK can simplify this task using fewer commands by chaining field separators.
+Example:
+    # apache2 -v | awk -F "/" 'NR==1{print $2}' | awk -F " " '{print $1}'
+    # apache2 -v | awk -F "/" '/version/ {print $2}' | awk -F " " '{print $1}'
