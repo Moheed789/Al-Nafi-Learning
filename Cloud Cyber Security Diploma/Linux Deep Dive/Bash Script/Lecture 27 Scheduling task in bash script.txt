@@ -1,0 +1,130 @@
+Lecture 27 : Scheduling Task in Bash Script
+
+This lecture explains how to configure your Linux system to send emails using Gmail SMTP through Sendmail and schedule tasks using the crontab. It covers Gmail authentication 
+setup, Sendmail configuration, creating scripts for monitoring, and how to run them on a schedule with cron.
+
+1. Login to your Email Account
+
+To begin configuring email functionality, first log in to your Gmail account to access security settings.
+
+2. Manage Your Google Account
+
+After logging in, go to your Google Account management section where all major settings are available.
+
+3. Click on Security Option and Enable Two-Way Verification
+
+For enhanced security, enable two-factor authentication in the security tab.
+
+4. Click on Security Option and Generate App Password
+
+After enabling two-factor authentication, generate an app-specific password. This password will be used to authenticate Sendmail in your Linux system.
+
+5. Move to Your Ubuntu or Linux Machine
+
+Now switch to your Linux terminal and install the necessary packages for email functionality.
+Example:
+    apt-get update
+    apt-get install sendmail mailutils
+
+6. Create Auth Directory
+
+Create a secure directory to store your Gmail credentials for Sendmail.
+Example:
+    cd /etc/mail
+    mkdir authinfo
+    chmod 700 authinfo/
+    cd authinfo/
+
+7. Create Gmail Authentication File
+
+Use cat to input your Gmail credentials in a specific format for Sendmail.
+Example:
+    cat gmail
+
+8. Generate Database File from Gmail Auth File
+
+Convert your plaintext authentication file into a hashed format using makemap.
+Example:
+    makemap hash gmail < gmail
+
+9. Edit Sendmail Configuration File
+
+Open the sendmail.mc file and navigate to line 100 to insert Gmail settings.
+Example:
+    cat sendmail.mc
+
+10. Add Gmail SMTP Configuration After Line 100
+
+Insert the following configuration lines into sendmail.mc to enable Gmail SMTP support:
+Example:
+    define(`SMART_HOST', `[smtp.gmail.com]')dnl
+    define(`RELAY_MAILER_ARGS', `TCP $h 587')dnl
+    define(`ESMTP_MAILER_ARGS', `TCP $h 587')dnl
+    define(`confAUTH_OPTIONS', `A p')dnl
+    TRUST_AUTH_MECH(`EXTERNAL DIGEST-MD5 CRAM-MD5 LOGIN PLAIN')dnl
+    define(`confAUTH_MECHANISMS', `EXTERNAL GSSAPI DIGEST-MD5 CRAM-MD5 LOGIN PLAIN')dnl
+    FEATURE(`authinfo', `hash -o /etc/mail/authinfo/gmail.db')dnl
+
+11. Reload Sendmail
+
+Apply the changes to Sendmail configuration by reloading the service.
+Example:
+    /etc/init.d/sendmail reload
+
+12. Send Test Email
+
+Now send a test email to ensure your setup is working correctly.
+Example:
+    sendmail automation5253@gmail.com
+    Test
+    test
+
+13. Check Mail Logs
+
+Verify if the mail was successfully sent by checking the mail log.
+Example:
+    less /var/log/mail.log
+    You should see: status=sent
+
+14. Crontab Syntax Overview
+
+Understand the fields used in crontab to schedule tasks.
+Example:
+    Field	Description	Allowed Values
+    MIN	     Minute	        0 to 59
+    HOUR	  Hour	        0 to 23
+    DOM	    Day of Month	1 to 31
+    MON	     Month	        1 to 12
+    DOW	    Day of Week	     0 to 6
+    CMD	    Command to run	Any valid command
+
+15. Edit Crontab
+
+Open the crontab file to add scheduled tasks.
+Example:
+    crontab -e
+
+16. Schedule a Task to Log Time Every Minute
+
+This command appends the current date to a file every minute.
+Example:
+    * * * * * echo $(date) >> /tmp/ABD.txt
+
+17. Check Available Free Memory
+
+Run this command to extract the free memory value using free and awk.
+Example:
+    free -gt | awk 'NR==4' | awk '{print $4}'
+
+18. Create Memory Monitoring Script
+
+This script sends an email alert if the available memory is less than or equal to 2GB.
+Example:
+    cat memory.sh
+    #!/bin/bash
+    free_mem=$(free -gt | awk 'NR==4' | awk '{print $4}')
+    if [[ $free_mem -le 2 ]]
+    then
+	    echo -e "Server memory very low with $free_mem" | mail -s "ALERT | MEMORY LOW" automation52786@gmail.com
+	    echo "Mail has been sent due to low memory $free_mem"
+    fi
