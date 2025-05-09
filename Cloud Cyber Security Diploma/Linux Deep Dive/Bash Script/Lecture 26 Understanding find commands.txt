@@ -1,0 +1,131 @@
+Lecture 26 : Understanding Find Commands
+
+In this lecture, we studied the find command in Linux, which is used to search for files and directories in a directory hierarchy based on various criteria like name, type, size,
+user, group, permission, and modification time. We also learned how to use the -exec option to perform actions on the search results. This lecture gives a comprehensive overview
+of file searching and handling in Linux using find.
+
+Find Syntax
+
+The general syntax of the find command is:
+Example:
+    find <path> <action> <file or patterns>
+
+1. Search for a file in the current directory
+
+This command searches for a file named abd1.txt in the current directory and all its subdirectories.
+Example:
+    find . -name abd1.txt
+
+2. Search for a file in a specific path
+
+This command searches for abd1.txt in the directory /root/bash/lect26/files.
+Example:
+    find /root/bash/lect26/files -name abd1.txt
+
+3. Find directories with a specific name
+
+This command searches for directories named abd in the current directory and below.
+Example:
+    find . -type d -name abd
+
+4. Find files with a specific name
+
+This command searches for files named abd (not directories).
+Example:
+    find . -type f -name abd
+
+5. Find all CSV files
+
+This command lists all files ending with .csv.
+Example:
+    find . -type f -name *.csv
+
+6. Find files owned by user 'root'
+
+This command shows all files whose owner is root.
+Example:
+    find . -user root
+
+7. Find files belonging to group 'root'
+
+This command lists files where the group ownership is root.
+Example:
+    find . -group root
+
+8. Find files with 0755 permissions
+
+This command shows all files with exact permission set to 0755.
+Example:
+    find . -type f -perm 0755 -print
+
+9. Find files where user has read permission
+
+This command finds files where the user has read permission (u=r).
+Example:
+    find . -perm /u=r
+
+10. Delete all .txt files in a specific directory
+
+This command deletes all .txt files found under /root/bash/lect26/files/dir1.
+Example:
+    find /root/bash/lect26/files/dir1 -type f -name "*.txt" -exec rm -f {} \;
+
+11. Change permission of directories with 777 to 755
+
+This command finds all directories with 777 permission and changes them to 755.
+Example:
+    find . -type d  -perm 777 -print -exec chmod 755 {} \;
+
+12. Find empty files (size 0)
+
+This command finds all empty files.
+Example:
+    find . -type f -size 0
+
+13. Count empty files
+
+This command counts the number of empty files found.
+Example:
+    find . -type f -size 0 | wc -l
+
+14. Find hidden files
+
+This command lists all hidden files (starting with a dot).
+Example:
+    find . -type f -name ".*"
+
+15. Find directories modified within the last 10 days
+
+This command finds directories modified in the last 10 days using -mtime -10.
+Example:
+    find . -type d -mtime -10
+
+16. Find files changed in the last 60 minutes
+
+This command finds all files changed in the last 60 minutes.
+Example:
+    find . -cmin -60
+
+17. Find files with size exactly 50MB
+
+This command shows files that are exactly 50 megabytes in size.
+Example:
+    find . -size 50M
+
+18. Find files modified in the last 2 hours
+
+This command lists all files modified in the last 120 minutes.
+Example:
+    find . -mmin -120
+
+19. Find files modified since yesterday
+
+This command finds files that have been modified since "yesterday".
+Example:
+    find . -newermt "yesterday"
+
+20. List files modified on a specific date using grep
+
+This command lists files modified on July 16.
+Example:
+    ls -ltrh | grep 'Jul 16'
