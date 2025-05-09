@@ -1,0 +1,192 @@
+Lecture 29 : Realtime Hands-on Practical in Bash Script [Part - 2]
+
+In this lecture, we practiced real-time command usage in bash scripts. The main focus was on filtering disk usage details, fetching IP and hostname, preparing multiple servers, 
+ping testing, SSH communication (passwordless and password-based), and connection validation using scripts. This lecture emphasized combining multiple commands using pipelines 
+and conditionally executing remote scripts.
+
+TASK Objective: Filtered Disk Output Using Linux Commands
+
+We need to generate a disk usage output in a filtered format showing index, mount info, usage, date, IP, and hostname.
+Example:
+    df -h | awk 'NR>1' | awk '{print NR "," $0}'
+
+Convert Space and Remove Percentage Symbol
+
+This step replaces unnecessary spaces and percentage signs to make the output cleaner and machine-readable.
+Example:
+    df -h | awk 'NR>1' | awk '{print NR "," $0}' | sed -e 's/+/,/g'
+    df -h | awk 'NR>1' | awk '{ print NR "," $0}' | sed -e 's/ +/,/g' | sed -E 's/%//g'
+
+Add Date in Output
+
+Appending the current system date to each line in the output.
+Example:
+    df -h | awk 'NR>1' | awk '{print NR "," $0}' | sed -e 's/+/,/g' | sed -e 's/%//g' | sed "s/$/,$(date +%d-%m-%y)/g"
+
+Fetching IP and Hostname for Each Line
+
+This point explains how to add IP and hostname of the server to each line in the disk report.
+Example:
+    ifconfig | awk 'NR==2' | awk '{print $2}'
+    hostname -I | awk '{print $1}'
+    df -h | awk 'NR>1' | awk '{print NR "," $0}' | sed -e 's/ +/,/g' | sed -e 's/%//g' | sed "s/$/,$(date +%d-%m-%y)/g" | sed "s/$/,$(hostname -I | awk '{print $1}')/g" | sed "s/$/,$(hostname)/g"
+
+Creating Servers and User Setup
+
+Prepare two servers and create a user named aadmin.
+Example:
+    useradd aadmin
+    passwd aadmin
+
+Creating Server Details CSV
+
+We list multiple server IPs and hostnames in a CSV file.
+Example:
+    cat serverIP.csv
+    Sr.no, ServerIP,servername
+    1,192.168.1.8,abdealinode2.local
+    2,192.178.1.3,app2
+    3,192.161.1.6,SFTP
+
+Extracting IP and Hostname Separately
+
+We use cut to extract only IP addresses and server names from the CSV.
+Example:
+    cat serverIP.csv | awk 'NR>1' | cut -d, -f2
+    cat serverIP.csv | awk 'NR>1' | cut -d, -f3
+
+Looping Over IPs Using Bash Script
+
+This script reads IPs from the file and prints them.
+Example:
+    #!/bin/bash
+    IP=$(cat serverIP.csv | awk 'NR>1' | cut -d, -f2)
+    for i in $IP
+    do
+        echo $i
+    done
+
+Output Redirection Types
+
+We explain different types of output redirection in bash.
+Example:
+    >      → file output redirection  
+    1>     → standard output  
+    2>     → error output  
+    &>     → both stdout and stderr
+
+Writing Ping Test Script (host_connection.sh)
+
+This script checks if the hosts are reachable via ping.
+Example:
+    #!/bin/bash
+    IP=$(cat serverIP.csv | awk 'NR>1' | cut -d, -f2)
+    for i in $IP
+    do
+        ping -c 1 $i 1>/dev/null
+        status=$(echo $?)
+        if [[ $status -eq 0 ]]
+        then
+            echo "$i is connected"
+        else
+            echo "$i is not connected"
+        fi
+    done
+
+Expected Output of Host Ping Script
+
+This is the result after executing the above script.
+Example:
+    ./host_connection.sh
+    192.168.1.8 is connected
+    192.178.1.3 is not connected
+    192.161.1.6 is not connected
+
+Generate SSH Key for Passwordless Login
+
+To allow SSH without entering password every time.
+Example:
+    ssh-keygen
+    cd /home/aadmin/.ssh/
+    ssh-copy-id 192.168.1.8
+
+Two-Way SSH Communication
+
+We explain passwordless SSH and password-based using sshpass.
+Example:
+    ssh 192.168.1.8
+    apt-get install sshpass
+    sshpass -f pass.txt ssh -n -o StrictHostKeyChecking=no -o PubkeyAuthentication=No aadmin@192.168.1.8 "hostname;ifconfig"
+    sshpass -f pass.txt ssh -n -o StrictHostKeyChecking=no -o PubkeyAuthentication=No aadmin@192.168.1.8 "hostname;ifconfig;date"
+
+Remote Hostname Script with SSH (host_connection1.sh)
+
+This script pings and also runs hostname command remotely.
+Example:
+    #!/bin/bash
+    IP=$(cat serverIP.csv | awk 'NR>1' | cut -d, -f2)
+    for i in $IP
+    do
+        ping -c 1 $i 1>/dev/null
+        status=$(echo $?)
+        if [[ $status -eq 0 ]]
+        then
+            echo "$i is connected"
+            ssh aadmin@$i "hostname"
+        else
+            echo "$i is not connected"
+        fi
+    done
+
+Force SSH Key Copy to Localhost
+
+This command copies SSH key forcibly.
+Example:
+    ssh-copy-id -f localhost
+
+Count Connected Hosts
+
+This script prints how many hosts are successfully connected.
+Example:
+    #!/bin/bash
+    IP=$(cat serverIP.csv | awk 'NR>1' | cut -d, -f2)
+    conn_count=0
+    for i in $IP
+    do
+        ping -c 1 $i 1> /dev/null
+        status=$(echo $?)
+        if [[ $status -eq 0 ]]
+        then
+            echo "$i is connected"
+            sshpass -f pass.txt ssh -n -o StrictHostKeyChecking=no -o PubkeyAuthentication=No aadmin@$i "uname" 2> /dev/null
+            conn_count=$((conn_count + 1))
+        else
+            echo "$i is not connected"
+        fi
+    done
+    echo "Total $conn_count is connected"
+
+Count Connected and Not Connected Hosts
+
+This final script displays both connected and disconnected counts.
+Example:
+    #!/bin/bash
+    IP=$(cat serverIP.csv | awk 'NR>1' | cut -d, -f2)
+    failed_count=0
+    conn_count=0
+    for i in $IP
+    do
+        ping -c 1 $i 1> /dev/null
+        status=$(echo $?)
+        if [[ $status -eq 0 ]]
+        then
+            echo "$i is connected"
+            sshpass -f pass.txt ssh -n -o StrictHostKeyChecking=no -o PubkeyAuthentication=No aadmin@$i "uname" 2> /dev/null
+            conn_count=$((conn_count + 1))
+        else
+            echo "$i is not connected"
+            failed_count=$((failed_count + 1))
+        fi
+    done
+    echo "Total $conn_count is connected"
+    echo "Total $failed_count is not connected"
