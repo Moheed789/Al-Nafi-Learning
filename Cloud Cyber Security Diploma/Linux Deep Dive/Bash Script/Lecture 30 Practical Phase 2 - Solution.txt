@@ -1,0 +1,169 @@
+Lecture 30 : Practical Phase 2 - Solution.
+
+This lecture covers a set of advanced practical Bash scripting tasks. The exercises include working with file counting, conditional deletion, file statistics, user listing, random file creation, password validation, 
+interactive menus, log rotation, and automated archiving. Each task is designed to provide hands-on experience with real-world shell scripting problems.
+
+1. Task 1 - Counting Files
+
+This script iterates through a predefined list of directories and checks how many files exist in each (including subdirectories). If the count exceeds a threshold, a warning message is generated. If the count is 
+within the threshold, it confirms that everything is fine.
+Example:
+    #!/bin/bash
+    DIRECTORIES="/home/aadmin/:/root/pract:/root/pract/abc.txt"
+    # Count the number of arguments passed in
+    if [[ $# -le 0 ]]
+    then
+        echo "Using default value for COUNT!"
+    fi
+    COUNT=10
+    echo $COUNT
+    while read -d ':' dir; do
+        if [[ ! -d "$dir" ]]
+        then
+            echo "**" Skipping $dir
+            continue
+        fi
+        files=`find $dir -type f | wc -l`
+        if [[ "$files" -lt "$COUNT" ]]
+        then
+            echo "Everything is fine in $dir: $files"
+        else
+            echo "WARNING: Large number of files in $dir: $files!"
+        fi
+    done <<< "$DIRECTORIES:"
+
+2. Task 2 – Delete Files Except Certain Extensions
+
+This command is used to delete all files in the current directory except the ones with a specific extension (in this case, .gz files).
+Example:
+    find . -type f -not -name '*gz' -print0 | xargs -0 -I {} rm -v {}
+
+3. Task 3 – Count Lines, Words, and Characters in Files
+
+This task lists all files that match a certain pattern and uses the wc command to display the number of lines, words, and characters in each file.
+Example:
+    ls *upload* | xargs wc
+
+4. Task 4 – List Linux User Accounts
+
+This command extracts a compact, sorted list of all Linux user accounts from the /etc/passwd file.
+Example:
+    cut -d: -f1 < /etc/passwd | sort | xargs
+
+5. Task 5 – Create Random File and Directory
+
+This Bash script creates a random file with the current date as its name and saves the system’s uptime in it. It also prints the current working directory where the file is saved.
+Example:
+    #! /bin/bash
+    echo "Hello $USER";
+    echo "$(uptime)" >> "$(date)".txt
+    echo "Your File is being saved to $(pwd)"
+Output Execution:
+    cat Saturday\ 23\ July\ 2022\ 08\:22\:20\ PM\ IST.txt
+    20:22:20 up 5:53, 2 users, load average: 0.19, 0.31, 0.26
+
+6. Task 6 – Password Validation Script
+
+This script validates a user's password based on length and the presence of lowercase letters, uppercase letters, and numbers. It ensures password strength according to basic criteria.
+Example:
+    echo "Enter your password"
+    read password
+    len="${#password}" 
+    echo $len
+    if test $len -ge 8;
+    then
+        echo "$password" | grep -q [0-9]
+        if test $? -eq 0 ; then
+            echo "$password" | grep -q [A-Z]
+            if [ $? -eq 0 ]; then
+                echo "$password" | grep -q [a-z]
+                if test $? -eq 0 ; then
+                    echo "Strong Password" else
+                    echo "Weak Password -> Should include a lower case letter."
+                fi
+            else
+                echo "Weak Password -> Should include a capital case letter."
+            fi
+        else
+            echo "Weak Password -> Should use numbers in your password."
+        fi
+    else
+        echo "Weak Password -> Password length should have at least 8characters."
+    fi
+Output Execution:
+    Enter your password
+    Abdeali1Dodi
+    15
+    Strong Password
+
+7. Task 7 – Menu Using Case Statements
+
+This script creates a menu using a while loop and case statements to execute different commands based on user input.
+Example:
+    while :
+    do
+        echo " Main Menu "
+        echo "[1] Show Todays date/time"
+        echo "[2] Show files in current directory"
+        echo "[3] Show calendar"
+        echo "[4] Start editor to write letters"
+        echo "[5] Exit/Stop"
+        echo "======================="
+        echo -n "Enter your menu choice [1-5]: "
+        read yourch
+        case $yourch in
+        1) echo "Today is `date` , press a key. . ." ; read ;;
+        2) echo "Files in `pwd`" ; ls -l ; echo "Press a key. . ." ; read ;;
+        3) cal ; echo "Press a key. . ." ; read ;;
+        4) vi ;;
+        5) exit 0 ;;
+        *) echo "Opps!!! Please select choice 1,2,3,4, or 5";
+        echo "Press a key. . ." ; read ;;
+        esac
+    done
+Output Execution:
+    Main Menu
+    [1] Show Todays date/time
+    [2] Show files in current directory
+    [3] Show calendar
+    [4] Start editor to write letters
+    [5] Exit/Stop
+    =======================
+    Enter your menu choice [1-5]: 7
+    Opps!!! Please select choice 1,2,3,4, or 5
+    Press a key. . .
+
+8. Task 8 – Log Rotate for auth.log
+
+This Bash script compresses the auth.log file with a timestamp and deletes old logs that are more than three days old.
+Example:
+    #!/bin/bash
+    DATE=`date +%d%h-%I%p`
+    BASE_DIR='/root/pract/log'
+    if [ -f $BASE_DIR/auth.log ]; then
+        cd $BASE_DIR
+        tar cf - auth.log | gzip -c > auth.log_$DATE.tgz
+        echo "" > auth.log
+    fi
+    find $BASE_DIR -name 'auth.log.*' -a -mtime +3 -exec rm {} \;
+
+9. Task 9 – Move CSV Files to Archive
+
+This script checks for .csv files in a directory and moves them to an archive folder if they exist.
+Example:
+    #!/bin/bash
+    ext="/home/aadmin/csv/*.csv"
+    for i in $ext;
+    do
+        if [ -f "$i" ];
+        then
+            echo -e "$i file exist";
+            mv $i /home/aadmin/csv/archive;
+        else
+            echo -e "File not found"
+        fi
+    done
+Output Execution:
+    /root/lect30/csv/file1.csv file exist
+    /root/lect30/csv/file2.csv file exist
+    /root/lect30/csv/file.csv file exist
