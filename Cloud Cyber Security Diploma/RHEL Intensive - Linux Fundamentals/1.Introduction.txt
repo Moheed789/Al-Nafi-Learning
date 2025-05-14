@@ -1,0 +1,144 @@
+1. Introduction
+
+Red Hat vs. SysOps Intensives
+
+Red Hat Administrators	                                                          SysOps Intensives
+————————————————————————————————————————————————————————————————————————————————————————————————————
+Red Hat Certified System Administrator (RHCSA)	                                    RHEL Intensive
+————————————————————————————————————————————————————————————————————————————————————————————————————
+Red Hat Certified Engineer (RHCE)
+————————————————————————————————————————————————————————————————————————————————————————————————————
+Red Hat Certified Specialist in Security: Linux	                                    RHEL Intensive++
+————————————————————————————————————————————————————————————————————————————————————————————————————
+Red Hat Certified Specialist in Linux Diagnostics and Troubleshooting	
+————————————————————————————————————————————————————————————————————————————————————————————————————
+Red Hat Certified Specialist in High Availability Clustering	
+————————————————————————————————————————————————————————————————————————————————————————————————————
+Red Hat Certified Specialist in Performance Tuning
+
+
+SysOps Intensives Overview
+
+RHEL Intensive
+
+Linux Fundamentals:
+
+DEMO – Getting started with Linux – Basic commands
+Installation
+Symlinks – Hardlinks
+Archival – Compression
+Permissions & Runlevels
+Partitioning
+FS Hierarchy & FSTab
+Process & Daemons
+Boot process
+Revision & deepdive
+
+User/NW Admin:
+
+User & groups administration
+RPM & SourceCode
+LVM
+Quota & Cron
+Troubleshooting
+Kernel Compilation
+NW config
+NFS & DHCP
+FTP – Xinted – Telnet
+SSH – TCPWrapper & YUM
+Iptables & Samba
+
+RHEL Intensive++
+
+CoreAdmin:
+
+Infrastructure – RAID
+Openfiler – LUNs Scanning & Remote block storage
+Multipathing – Bonding / Teaming
+LDAP
+Syslog
+Hardening / Patching in RHEL
+SELinux & PAM
+Iptables – Kdump – PXE
+Heartbeat
+HAProxy – DRBD
+RHEL HA Cluster
+Vulnerability Scanning & OpenSCAP
+AIDE – Encryption – Auditing & Whitelisting app
+
+ServerApps:
+
+DNS
+Apache / Tomcat
+Nginx
+Postfix
+Monitoring Technology Stack
+Prometheus
+Grafana
+Squid
+MySQL
+FTPs / SFTP
+
+Why take SysOps Intensives
+
+• RHEL Intensive & RHEL Intensive++ provides tentatively 3 months long classes, including, but not limited to Linux fundamentals, cli concepts, in-depth core admin tasks, in-depth server/application modules.
+• It provides full time Linux system administration opportunity & a start for DevOps, CloudOps Cyber security paths etc.
+• Prerequisites – There are no prerequisites for this course. Howerver, previous sys admin experience on different OS will be beneficial
+
+Demo
+
+Topics:
+
+• Getting started with Linux
+• What is Linux & how it became open source
+• What we are going to learn - Red Hat concepts
+• Development of RHEL - Federo / CentOS project
+• Logging into CentOS GNOME env & accessing GNOME terminal
+• What are command / Flags - Executing commands using shell
+• Topic: Absolute paths & relative paths
+• Installation of CentOS on VM virtual box
+
+What is linux & how it became open source
+
+• Linux is not OS. Linux is a kernel & kernel is the heart of OS.
+• Unix was the oldest- Linux was invented in 1991 & it is an open source which means source code is free. Application code used in linux is free.
+• Who invented open source? Linux is kernel & kernel is part of open source community under which we get all applications like apache, vlc etc code will be freely available.
+• Open source invented 1984/85 by richard stallman before linux invented with name GNU as OS & opensource community.
+• Then in 1991 linus torvalds developed linux kernel – kernel version 0.97 in 1991 & he gave it to GNU foundation & made this kernel as part of open source community
+• And he applied open source license which is GPL [ general public license – means free licence]
+• Linus torvalds also got millennium award in 2012
+
+What we are going to learn - Red Hat !!
+
+• Red hat v1 to v9 was free & from then Red Hat become commercial & they gave the name RHEL - Red Hat Enterprise Linux.
+• Which means Red Hat v15 became RHEL 6, v16 became RHEL 7, v17 became RHEL 8
+• We totally believe in concepts & we will be going deep dive on concepts which can be applied on RHEL 7 & 8
+• CentOS is fully open source & mirror copy of Red Hat . Big companies like google, FB, gmailusses centos & not Red Hat as Red Hat is not open source. Ubuntu is also fully open source
+• What Red Hat have done is - compiled all free open source application in an OS & giving support as per subscription.
+
+Development of Red Hat- Federo Project
+
+• What is Federo? Its an OS from Red Hat
+• Federo is a free offering from Red Hat
+• Red Hat sponsors & integrates open source projects into a community-driven Linux distribution, Federo.Red Hat participates in supporting open source projects & stabilizes the software to ensure that it is ready for LTS & standardization, and integrates it into their enterprise-ready distribution, RHEL.
+• Red Hat bases its major releases of RHEL on Federo. RHEL uses subscription based model.This is not a license fee, instead it pays for support, maintenance, updates, security patches & so on.
+• CentOS is community driven linux dist derived from much of open source RHEL codebase & other sources. It is free of charge – supported by active user community of volunte that operates independently of Red Hat.
+
+Logging into CentOS GNOME env & accessing GNOME terminal
+
+• Login screen — In linux root is the administrator – we will be creating this user while installing
+• Root is good or windows administrator account is good? Upon login, right click & open terminal. Terminals are called emulators – they take input from keyboard give it to shell – shell then processes it & give it back to terminal terminal then outputs
+
+Installation of CentOS
+
+• We will install RHEL 7 in 7 partitions - what do you mean by partitions ? Data isolation separation. Like c, d drive these are drive letters also called partitions. If i write data on C where it will go ? C is called accesspoint for partition HD
+• In linux we dont have c,d,e we have /,/boot,/var etc & in linux we dont called accesspoint - we call it mountpoints - we will go in detail in FS hierarchy module.
+• 7 partitions is recomended but not necessary - minimum reqired partition to install linux is 1 only which is root - if you install in one partition, will /boot,/var will be created? Yes, it willl be created as a directory in one single partition.
+• 7 partitions scheme with 15 Gb HD
+/boot 512MB
+/ 2GB
+swap - double the RAM
+/var 4GB
+/tmp 1GB
+/usr 4GB
+/home 1GB
